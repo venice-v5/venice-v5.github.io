@@ -20,7 +20,7 @@ const NotFound: React.FC = () => {
   return (
     <div style={{ textAlign: "center", marginTop: "3rem" }}>
       <h1>Oops! The page you were trying to go to doesn't exist.</h1>
-      <p className="text-3xl font-serif mt-10 height-5 text-accent">
+      <p className="text-3xl font-serif mt-10 h-5 text-accent">
         <em>But</em> we know where you might have been trying to go.
         <br />
         Redirecting in {countdown}...
