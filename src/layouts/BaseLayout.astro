@@ -16,6 +16,9 @@ const { title, description, ogImage } = Astro.props;
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title || "Venice: Micropython for VEX V5"}</title>
         <meta name="description" content={description || "Venice is a Micropython library for VEX V5 robotics."} />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"></script>
   </head>
   <body class="bg-background min-h-screen font-sans antialiased">
       <main class="w-[100vw] h-[100vh]">
@@ -27,10 +30,25 @@ const { title, description, ogImage } = Astro.props;
                 numOctaves='1'
                 stitchTiles='stitch'/>
             </filter>
-
             <rect width='100vw' height='500vh' filter='url(#noiseFilter)'/>
           </svg>
         <slot class="z-10" />
+        <div class="fixed top-4 left-4 text-xl font-mono z-[9]">image from <br /><a href="https://www.citalia.com/holidays/italy/veneto/venice/grand-canal-boat-tour-excursion/">Citalia</a></div>
       </main>
+      <script>
+      document.addEventListener('DOMContentLoaded', () => {
+            renderMathInElement(
+                document.body,
+                {
+                    delimiters: [
+                        {left: "$$", right: "$$", display: true},
+                        {left: "\\[", right: "\\]", display: true},
+                        {left: "$", right: "$", display: false},
+                        {left: "\\(", right: "\\)", display: false}
+                    ]
+                }
+            );
+      });
+          </script>
   </body>
 </html>
