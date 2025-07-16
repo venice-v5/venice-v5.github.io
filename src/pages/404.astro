@@ -1,0 +1,12 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import NotFound from "@/components/404";
+---
+
+<BaseLayout
+  title="404 - Not Found"
+  description="404 Error — this page was not found"
+>
+    <NotFound client:load />
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import "@/styles/global.css";
+
+interface Props {
+  title?: string | undefined;
+  description?: string | undefined;
+  ogImage?: URL | undefined;
+}
+
+const { title, description, ogImage } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+      <meta charset="UTF-8" />
+  </head>
+  <body class="bg-background min-h-screen font-sans antialiased">
+      <main class="flex-auto">
+        <slot />
+      </main>
+  </body>
+</html>
