@@ -18,8 +18,19 @@ const { title, description, ogImage } = Astro.props;
         <meta name="description" content={description || "Venice is a Micropython library for VEX V5 robotics."} />
   </head>
   <body class="bg-background min-h-screen font-sans antialiased">
-      <main class="flex-auto">
-        <slot />
+      <main class="w-[100vw] h-[100vh]">
+          <svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg' class='z-[-1000] backdrop-blur-[2px] fixed top-0 left-0 w-screen h-screen'>
+            <filter id='noiseFilter'>
+              <feTurbulence
+                type='fractalNoise'
+                baseFrequency='4'
+                numOctaves='1'
+                stitchTiles='stitch'/>
+            </filter>
+
+            <rect width='100vw' height='500vh' filter='url(#noiseFilter)'/>
+          </svg>
+        <slot class="z-10" />
       </main>
   </body>
 </html>
