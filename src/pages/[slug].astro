@@ -15,7 +15,7 @@ const page: BlogPost = Astro.props.page;
 const { Content } = await page.render();
 ---
 
-<BaseLayout>
+<BaseLayout title={`${page.data.title} | Venice blog`}>
   <section>
     <div
       class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]"
