@@ -13,7 +13,7 @@
     --color-background: hsl(var(--background));
     --color-foreground: hsl(var(--foreground));
 
-    --color-accent: rgba(252.1, 88.685, 79.151);
+    --color-accent: #ff453b;
 
     --color-primary: hsl(var(--primary));
     --color-primary-foreground: hsl(var(--primary-foreground));
@@ -168,11 +168,15 @@
         font-synthesis-weight: none;
         text-rendering: optimizeLegibility;
 
-        background-image: url("data:image/svg+xml,%3Csvg height='100' width='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,0 100,0 100,100 0,100' style='fill:%2398C1D9; opacity: 0.9;'/%3E%3Cpolygon points='50,0 100,50 50,100 0,50' style='fill:%23DCDAD5;'/%3E%3C/svg%3E ");
-        background-size: 3cm;
+        background-image: url("https://www.citalia.com/-/media/Bynder/Citalia-destinations/Italy/Cities/Venice/Venice-2023-Rialto-Bridge-001109-Hybris.jpg?rev=c5d099adefcd4cc0943d44baada29c93&hash=B5656830DBB586F4D7B9F656DFCD971F&w=1920&h=940");
+        /* / url("data:image/svg+xml,%3Csvg height='100' width='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,0 100,0 100,100 0,100' style='fill:%2398C1D9; opacity: 0.9;'/%3E%3Cpolygon points='50,0 100,50 50,100 0,50' style='fill:%23DCDAD5;'/%3E%3C/svg%3E "); */
+        /* background-size: 3cm; */
+        background-repeat: no-repeat;
+          background-position: center center;
+          background-size: auto 100%;
     }
     h1 {
-        @apply text-5xl font-serif text-accent;
+        @apply text-5xl font-serif text-accent @xs:text-8xl;
     }
 
 }

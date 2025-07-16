@@ -4,9 +4,18 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
-  <section class="backdrop-blur-sm h-[100vh] w-[100vw]">
-      <div>
-          <h1 class="p-20 w-[40%]"><span class="font-bold">Venice</span>, an <em>open source</em>, community-driven Micropython runtime for the VEX V5</h1>
-      </div>
+        <svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg' class='z-0 backdrop-blur-[2px] fixed top-0 left-0 w-screen h-screen'>
+          <filter id='noiseFilter'>
+            <feTurbulence
+              type='fractalNoise'
+              baseFrequency='4'
+              numOctaves='1'
+              stitchTiles='stitch'/>
+          </filter>
+
+          <rect width='100vw' height='500vh' filter='url(#noiseFilter)'/>
+        </svg>
+  <section class="z-0 w-[100vw] h-[100vh] flex">
+        <h1 class="mx-auto my-auto z-10 mt-[10vh] text-center max-w-[80vw]"><span class="font-bold">Venice</span>, an <em>open source</em>, community-driven Micropython runtime for the VEX V5</h1>
   </section>
 </BaseLayout>
