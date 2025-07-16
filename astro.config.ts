@@ -10,4 +10,10 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  markdown: {
+    syntaxHighlight: "shiki", // or 'prism'
+    shikiConfig: {
+      theme: "github-light", // or 'github-dark', 'nord', etc.
+    },
+  },
 });

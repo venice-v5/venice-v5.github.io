@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { isAstroComponentFactory } from 'astro/runtime/server/render/astro/factory.js';
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  return posts.map((page: any) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+const page: BlogPost = Astro.props.page;
+const { Content } = await page.render();
+---
+<BaseLayout>
+    <section>
+        <div
+            class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]"
+        >
+            <div class="uppercase text-2xl mb-5 text-center">from the <a href="/">Venice</a> blog</div>
+            <h1 class="text-center">
+                <span class="font-bold">{page.data.title}</span>
+            </h1>
+            <div class="flex text-xl font-sans mx-auto justify-center">
+                <span class="">{page.data.description}</span>
+                <time class="mx-10">{page.data.date}</time>
+                <div class=""> by <a href={page.data.authorLink}>{page.data.author}</a></div>
+            </div>
+            <Content />
+            <div class="flex gap-5">
+                <!-- <a href="https://github.com/Venice-V5"
+                    ><Button
+                        variant="outline"
+                        className="justify-center font-sans text-2xl"
+                        >Github</Button
+                    ></a
+                >
+                <a href="https://discord.gg/Egw6kMU8hX"
+                    ><Button
+                        variant="outline"
+                        className="justify-center font-sans text-2xl"
+                        >Discord</Button
+                    ></a
+                > -->
+            </div>
+        </div>
+        <!-- For some reason mb-5 doesn't work so we do this r -->
+        <div class="h-5">&nbsp;</div>
+    </section>
+</BaseLayout>
+
+<style is:global>
+h2, h3, h4 {
+    color: var(--color-accent);
+}
+content > h1, h2, h3 {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 2rem;
+    margin-bottom: 0.2rem;
+}
+a:hover {
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-accent);
+    transition: all 100ms;
+    inset: 7px;
+}
+</style>
