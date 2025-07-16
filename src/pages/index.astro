@@ -1,9 +1,9 @@
 ---
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants, Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout>
+<BaseLayout title="Venice: Micropython for VEX V5">
         <svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg' class='z-0 backdrop-blur-[2px] fixed top-0 left-0 w-screen h-screen'>
           <filter id='noiseFilter'>
             <feTurbulence
@@ -16,6 +16,12 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           <rect width='100vw' height='500vh' filter='url(#noiseFilter)'/>
         </svg>
   <section class="z-0 w-[100vw] h-[100vh] flex">
-        <h1 class="mx-auto my-auto z-10 mt-[10vh] text-center max-w-[80vw]"><span class="font-bold">Venice</span>, an <em>open source</em>, community-driven Micropython runtime for the VEX V5</h1>
+      <div class="mx-auto my-auto z-10 mt-[10vh] max-w-[80vw] items-center flex flex-col">
+        <h1 class="text-center"><span class="font-bold">Venice</span>, an <em>open source</em>, community-driven Micropython runtime for the VEX V5</h1>
+        <div class="flex gap-5">
+            <a href="https://github.com/Venice-V5"><Button variant="outline" className="justify-center"><h2 class="font-sans">Github</h2></Button></a>
+            <a href="https://discord.gg/Egw6kMU8hX"><Button variant="outline" className="justify-center"><h2 class="font-sans">Discord</h2></Button></a>
+        </div>
+      </div>
   </section>
 </BaseLayout>

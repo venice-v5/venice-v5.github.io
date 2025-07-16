@@ -38,7 +38,7 @@
     --radius-sm: calc(var(--radius) - 4px);
 
     --font-sans:
-        Inter, Inter override, ui-sans-serif, system-ui, sans-serif,
+        Geist, Inter, Inter override, ui-sans-serif, system-ui, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
 
@@ -153,6 +153,13 @@
     font-style: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: "Geist";
+    src: url("/fonts/Geist-Regular.woff2") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 @layer base {
     * {
         @apply border-border;
@@ -178,5 +185,7 @@
     h1 {
         @apply text-5xl font-serif text-accent @xs:text-8xl;
     }
-
+    h2 {
+        @apply text-3xl;
+    }
 }
