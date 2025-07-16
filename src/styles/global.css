@@ -186,6 +186,17 @@
         @apply text-5xl font-serif text-accent @xs:text-8xl;
     }
     h2 {
-        @apply text-3xl;
+        @apply text-4xl font-serif;
+    }
+    h3 {
+        @apply text-2xl font-serif;
+    }
+    .glass {
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        backdrop-filter: blur(3.1px);
+        -webkit-backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.42);
     }
 }
