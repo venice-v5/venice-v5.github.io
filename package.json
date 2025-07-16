@@ -1,17 +1,13 @@
 {
-  "name": "@area44/astro-shadcn-ui-template",
-  "version": "25.01.27",
-  "description": "An Astro template for building apps.",
-  "author": {
-    "name": "AREA44"
-  },
+  "name": "venice-v5.github.io",
+  "description": "Website for Venice, an open Micropython runtime for the VEX V5.",
   "license": "MIT",
   "scripts": {
     "build": "astro build",
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev",
-    "format": "biome format --write ."
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
