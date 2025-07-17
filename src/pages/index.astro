@@ -18,10 +18,10 @@ let posts = posts_raw.map((p: { slug: string }) => {
       class="mx-auto my-auto z-10 mt-[10vh] max-w-[80vw] items-center flex flex-col"
     >
       <h1 class="text-center">
-        <span class="font-bold">Venice</span>, an <em>open source</em>,
+        <span class="font-bold">Venice,</span> an <em>open source</em>
         Python runtime for the VEX V5
       </h1>
-      <div class="flex gap-5">
+      <div class="flex gap-5 mt-5">
         <a href="https://github.com/Venice-V5"
           ><Button
             variant="outline"
@@ -39,7 +39,7 @@ let posts = posts_raw.map((p: { slug: string }) => {
       {
         posts.map((post: BlogPost) => (
           <a
-            class="flex flex-col gap-4 glass rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
+            class="flex flex-col gap-4 bg-white/40 rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
             href={post.url}
           >
             <h3>{post.data.title}</h3>
