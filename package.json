@@ -1,7 +1,7 @@
 {
   "name": "venice-v5.github.io",
   "version": "1.0.0",
-  "description": "Website for Venice, an open Micropython runtime for the VEX V5.",
+  "description": "Website for Venice, an open source Python runtime for VEX V5 robots.",
   "license": "MIT",
   "scripts": {
     "build": "astro build",
