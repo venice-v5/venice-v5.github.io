@@ -1,0 +1,29 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import DocsNav from "@/components/docs-nav";
+export async function getStaticPaths() {
+  const posts = await getCollection("docs");
+
+  return posts.map((page: any) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+const posts = await getCollection("docs");
+const page = Astro.props.page;
+const { Content } = await page.render();
+---
+
+<BaseLayout
+  title="Venice Docs"
+  description="docs for Venice, the OSS Micropython runtime for VEX V5"
+  nocredit
+>
+
+  <div class="w-screen h-screen backdrop-blur-lg bg-white/30 p-15 fixed overflow-y-scroll">
+      <DocsNav posts={posts} client:load post={page} />
+      <Content />
+  </div>
+</BaseLayout>
