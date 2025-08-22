@@ -18,4 +18,7 @@ export default defineConfig({
       theme: "github-light", // or 'github-dark', 'nord', etc.
     },
   },
+  redirects: {
+      "/docs": "/docs/intro",
+    }
 });
