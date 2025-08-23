@@ -38,7 +38,7 @@ export default function DocsNav({
       className="flex flex-col gap-2 border-2 rounded-lg border-accent bg-white/50 mb-4 w-full p-3.5"
     >
       <div className="flex items-center justify-between gap-4">
-        <h4 className="text-lg font-serif">
+        <h4 className="text-lg font-serif my-auto">
           currently on <em>{ post.data.title }</em>
         </h4>
         <CollapsibleTrigger asChild>

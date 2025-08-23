@@ -22,7 +22,7 @@ const { Content } = await page.render();
   nocredit
 >
 
-  <div class="w-screen h-screen backdrop-blur-lg bg-white/30 p-15 fixed overflow-y-scroll">
+  <div class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]">
       <DocsNav posts={posts} client:load post={page} />
       <Content />
   </div>
