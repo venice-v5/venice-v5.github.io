@@ -48,7 +48,7 @@ let posts = posts_raw.map((p: { slug: string }) => {
             class="flex flex-col gap-4 bg-white/40 rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
             href={post.url}
           >
-            <h3>{post.data.title}</h3>
+              <h3 class="my-0">{post.data.title}</h3>
             <span class="font-sans">{post.data.description}</span>
           </a>
         ))
