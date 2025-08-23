@@ -3,10 +3,12 @@ import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://venice-v5.github.io",
-  integrations: [react()],
+  integrations: [react(), mdx()],
   vite: {
     plugins: [tailwindcss()],
   },
@@ -16,4 +18,7 @@ export default defineConfig({
       theme: "github-light", // or 'github-dark', 'nord', etc.
     },
   },
+  redirects: {
+      "/docs": "/docs/intro",
+    }
 });

@@ -20,11 +20,11 @@ const { Content } = await page.render();
     <div
       class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]"
     >
-      <div class="uppercase text-2xl mb-5 text-center">
+      <div class="uppercase text-2xl -mb-4 text-center">
         from the <a href="/">Venice</a> blog
       </div>
-      <h1 class="text-center">
-        <span class="font-bold">{page.data.title}</span>
+      <h1 class="text-center font-bold">
+          {page.data.title}
       </h1>
       <div class="flex text-xl font-sans mx-auto justify-center">
         <span class="">{page.data.description}</span>

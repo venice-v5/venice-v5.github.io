@@ -200,6 +200,9 @@
   h3 {
     @apply text-2xl font-serif;
   }
+  h2, h3, h4 {
+      @apply mt-8 mb-4;
+  }
   a {
     @apply !text-accent border-b-1;
   }

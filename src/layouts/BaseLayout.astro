@@ -5,9 +5,10 @@ interface Props {
   title?: string | undefined;
   description?: string | undefined;
   ogImage?: URL | undefined;
+  nocredit?: boolean;
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, nocredit } = Astro.props;
 ---
 
 <html lang="en">
@@ -34,7 +35,9 @@ const { title, description, ogImage } = Astro.props;
             <rect width='100vw' height='500vh' filter='url(#noiseFilter)'/>
           </svg>
         <slot class="z-10" />
-        <div class="fixed top-4 left-4 text-xl font-mono z-[9]">image from <br /><a href="https://www.citalia.com/holidays/italy/veneto/venice/grand-canal-boat-tour-excursion/">Citalia</a></div>
+        {
+          !nocredit && <div class="fixed top-4 left-4 text-xl font-mono z-[9]">image from <br /><a href="https://www.citalia.com/holidays/italy/veneto/venice/grand-canal-boat-tour-excursion/">Citalia</a></div>
+        }
       </main>
       <script>
       document.addEventListener('DOMContentLoaded', () => {
