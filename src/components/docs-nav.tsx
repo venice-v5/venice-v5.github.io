@@ -18,46 +18,53 @@ type Post = {
 };
 import { useState } from "react";
 
-const seps = [{ data: { title: "Venice Program Table", order: -0.5 } }];
+const seps = [{ data: { title: "Getting started with Venice", order: 0.5 } }];
 
 export default function DocsNav({
   posts,
   post,
+  isMobile = false,
 }: {
   posts: Post[];
-    post: Post;
+  post: Post;
+  isMobile?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const sorted = (posts as (Post | { data: { title: string, order: number }, id: null })[])
-    .concat(seps.map(s => ({...s, id: null})))
+    .concat(seps.map(s => ({ ...s, id: null })))
     .sort((a, b) => (a.data.order) - (b.data.order));
+  const stuff = (
+    sorted.map(p =>
+      p.id ?
+        <a href={`/docs/${p.slug}`} className={`!border-b-0 p-2 rounded-2 rounded-xl ${p.id === post.id ? 'bg-accent/20' : 'hover:bg-accent/10'}`} key={p.id}>{p.data.title}</a>
+        :
+        <span key={p.id} className="text-sm text-foreground/70">{p.data.title}</span>
+    )
+  );
   return (
-    <Collapsible
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      className="flex flex-col gap-2 border-2 rounded-lg border-accent bg-white/50 mb-4 w-full p-3.5"
-    >
-      <div className="flex items-center justify-between gap-4">
-        <h4 className="text-lg font-serif my-auto">
-          currently on <em>{ post.data.title }</em>
-        </h4>
-        <CollapsibleTrigger asChild>
-          <Button variant="outline" size="icon" className="size-8">
-            {!isOpen ? <ChevronDown /> : <ChevronUp />}
-          </Button>
-        </CollapsibleTrigger>
-      </div>
-      <CollapsibleContent className="flex flex-col gap-2">
-        {
-          sorted.map(p =>
-            p.id ?
-            <a href={`/docs/${p.slug}`} className={`!border-b-0 p-2 rounded-2 rounded-xl ${p.id === post.id ? 'bg-accent/20' : 'hover:bg-accent/10'}`} key={p.id}>{ p.data.title }</a>
-            :
-              <span key={p.id} className="text-sm text-foreground/70">{p.data.title}</span>
-          )
-        }
-      </CollapsibleContent>
-    </Collapsible>
+    isMobile ? (
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className={`flex flex-col gap-2 border-2 rounded-lg border-accent bg-white/50 mb-4 w-full p-3.5`}
+      >
+        <div className="flex items-center justify-between gap-4">
+          <h4 className="text-lg font-serif !my-0">
+            currently on <em>{post.data.title}</em>
+          </h4>
+          <CollapsibleTrigger asChild>
+            <Button variant="outline" size="icon" className="size-8">
+              {!isOpen ? <ChevronDown /> : <ChevronUp />}
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <CollapsibleContent className="flex flex-col gap-2">
+          {...stuff}
+        </CollapsibleContent>
+      </Collapsible>
+    ) : (
+      <div className="flex flex-col gap-2 w-[26rem] mr-5">{...stuff}</div>
+    )
   );
   // return (
   //   <>

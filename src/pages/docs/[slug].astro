@@ -22,8 +22,46 @@ const { Content } = await page.render();
   nocredit
 >
 
-  <div class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]">
-      <DocsNav posts={posts} client:load post={page} />
+  <div class="backdrop-blur-lg bg-white/30 my-5 rounded-xl mx-auto lg:flex">
+      <div class="hidden lg:block">
+      <DocsNav posts={posts} client:load post={page} isMobile={false} />
+      </div>
+      <div class="lg:hidden">
+      <DocsNav posts={posts} client:load post={page} isMobile={true} />
+      </div>
+      <div>
       <Content />
+      </div>
   </div>
 </BaseLayout>
+
+<style is:global>
+  h2,
+  h3,
+  h4 {
+    color: var(--color-accent);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  a {
+      color: var(--color-accent);
+      text-decoration: underline;
+  }
+  Content {
+      line-height: 2rem;
+  }
+  p {
+      margin-bottom: 1rem;
+  }
+  td, th {
+      padding: 0.25rem;
+      border: 1px solid var(--color-border);
+  }
+</style>

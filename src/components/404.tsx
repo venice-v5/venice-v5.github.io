@@ -4,6 +4,7 @@ const NotFound: React.FC = () => {
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
+    if (import.meta.env.DEV) return;
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1) {
@@ -18,7 +19,7 @@ const NotFound: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ textAlign: "center", marginTop: "3rem" }}>
+    <div style={{ textAlign: "center", marginTop: "3rem" }} className="h-screen">
       <h1>Oops! The page you were trying to go to doesn't exist.</h1>
       <p className="text-3xl font-serif mt-10 h-5 text-accent">
         <em>But</em> we know where you might have been trying to go.

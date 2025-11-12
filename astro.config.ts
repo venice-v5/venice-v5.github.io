@@ -19,6 +19,6 @@ export default defineConfig({
     },
   },
   redirects: {
-      "/docs": "/docs/intro",
+      "/docs": "/docs/what",
     }
 });

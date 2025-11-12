@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import "@/styles/global.css";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { isAstroComponentFactory } from "astro/runtime/server/render/astro/factory.js";
 
@@ -23,7 +24,7 @@ const { Content } = await page.render();
       <div class="uppercase text-2xl -mb-4 text-center">
         from the <a href="/">Venice</a> blog
       </div>
-      <h1 class="text-center font-bold">
+      <h1 class="text-center">
           {page.data.title}
       </h1>
       <div class="flex text-xl font-sans mx-auto justify-center">
@@ -77,11 +78,10 @@ const { Content } = await page.render();
     margin-top: 2rem;
     margin-bottom: 0.2rem;
   }
-  a:hover {
-    border-bottom-width: 3px;
-    border-bottom-style: solid;
-    border-bottom-color: var(--color-accent);
-    transition: all 100ms;
-    inset: 7px;
+  a {
+      color: var(--color-accent);
+  }
+  * {
+      line-height: 1.7rem;
   }
 </style>
