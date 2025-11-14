@@ -44,21 +44,13 @@ h1, h2, h3, h4, h5, h6 {
     --code: #f8f8f8;
     --active: #fff598;
 
-    --accent: white;
-    --accent2: white;
+    --accent: #f8f8f8;
+    --accent2: #f8f8f8;
 
     --nav-hover: rgba(255, 255, 255, 0.5);
     --name: #0066BB;
     --def: #008800;
     --annotation: #007020;
-}
-
-.docstring, .modulename {
-    margin-left: 1rem !important;
-}
-
-main {
-    margin-left: -1rem !important;
 }
 
 input[type=search]:focus::placeholder, input[type=search]:focus {

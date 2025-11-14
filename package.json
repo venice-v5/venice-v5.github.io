@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "start": "astro dev",
     "format": "prettier --write .",
-    "build:api": "cd src/stubs && uvx pdoc --search -n -t templates venice/__init__.py -o output"
+    "build:api": "cd src/stubs && sh build.sh"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.4",
