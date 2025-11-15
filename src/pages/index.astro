@@ -1,4 +1,6 @@
 ---
+import "@/styles/global.css";
+import CodeDemo from "./demo.md";
 import { buttonVariants, Button } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
@@ -10,49 +12,41 @@ let posts = posts_raw.map((p: { slug: string }) => {
     url: "/" + p.slug,
   };
 }) as any as BlogPost[];
+
+const files = import.meta.glob("../stubs/**/*.html");
 ---
 
 <BaseLayout title="Venice: OSS Python runtime for VEX V5 robots">
-  <section>
-    <div
-      class="mx-auto my-auto z-10 mt-[10vh] max-w-[80vw] items-center flex flex-col"
-    >
-      <h1 class="text-center">
-        <span class="font-bold">Venice,</span> an <em>open source</em>
-        Python runtime for VEX V5 robots
-      </h1>
-      <div class="flex gap-5 mt-5">
-        <a href="https://github.com/venice-v5"
-          ><Button
-            variant="outline"
-            className="justify-center font-sans text-2xl">GitHub</Button
-          ></a
-        >
-        <a href="https://discord.gg/Egw6kMU8hX"
-          ><Button
-            variant="outline"
-            className="justify-center font-sans text-2xl">Discord</Button
-          ></a
-        >
-        <a href="/docs"
-          ><Button
-            variant="outline"
-            className="justify-center font-sans text-2xl">Docs</Button
-          ></a
-        >
+    <section class="py-10">
+      <div class="flex flex-col lg:flex-row lg:mx-52 gap-12 mt-[10vh]">
+      <div class="my-auto z-10 items-center flex flex-col">
+        <h1 class="text-center">
+          Venice, an open source Python runtime for
+          VEX V5 robots
+        </h1>
+        <p class="mt-5">
+          Venice is a community-driven, open-source port of Micropython to the VEX V5 brain. It supports:
+          <ul class="[&_li]:list-disc ml-4">
+              <li>Multiple files</li>
+              <li>Async Python for long-running tasks</li>
+              <li>Simple and type-safe API design</li>
+              <li>High-quality type checking, build, and upload support in any editor</li>
+          </ul>
+        </p>
       </div>
-      <h2 class="mt-10 text-center w-full mb-3">From the blog</h2>
-      {
-        posts.map((post: BlogPost) => (
-          <a
-            class="flex flex-col gap-4 bg-white/40 rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
-            href={post.url}
-          >
-              <h3 class="my-0">{post.data.title}</h3>
-            <span class="font-sans">{post.data.description}</span>
-          </a>
-        ))
-      }
+      <div class="w-full border-2 border-accent rounded-2xl p-2"><CodeDemo  /></div>
     </div>
+    <h2 class="mt-10 text-center w-full mb-3">From the blog</h2>
+    {
+      posts.map((post: BlogPost) => (
+        <a
+          class="flex flex-col mx-auto gap-4 bg-white/40 rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
+          href={post.url}
+        >
+          <h3 class="my-0">{post.data.title}</h3>
+          <span class="font-sans">{post.data.description}</span>
+        </a>
+      ))
+    }
   </section>
 </BaseLayout>

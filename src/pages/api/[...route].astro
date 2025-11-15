@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+const files = import.meta.glob("../../stubs/**/*.html", {
+  query: "?raw",
+});
+const keys = Object.keys(files);
+const routes = await Promise.all(
+  keys.map(async (k) => ({
+    params: {
+      html: ((await files[k]()) as { default: string }).default,
+      route: k.endsWith("/output/index.html")
+        ? undefined
+        : k.split("/output/")[1].replace(".html", ""),
+    },
+  })),
+);
+export async function getStaticPaths() {
+  const files = import.meta.glob("../../stubs/**/*.html", {
+    query: "?raw",
+  });
+  const keys = Object.keys(files);
+  const routes = await Promise.all(
+    keys.map(async (k) => ({
+      params: {
+        html: ((await files[k]()) as { default: string }).default,
+        route: k.endsWith("/output/index.html")
+          ? undefined
+          : k.split("/output/")[1].replace(".html", ""),
+      },
+    })),
+  );
+  return routes;
+}
+
+const { route } = Astro.params;
+if (route === undefined) {
+  return Astro.redirect("/api/venice.html");
+}
+const html = routes.filter(r => r.params.route == route)[0].params.html;
+---
+<BaseLayout title="Venice API Documentation">
+    <div class="px-24">
+<div set:html={html} /></div>
+</BaseLayout>

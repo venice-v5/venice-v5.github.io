@@ -176,61 +176,17 @@
     @apply scroll-smooth;
   }
 
-  body {
+  body:not(.pdoc) {
     @apply bg-background text-foreground;
-    /* font-feature-settings: "rlig" 1, "calt" 1; */
-    font-synthesis-weight: none;
-    text-rendering: optimizeLegibility;
-
-    background-image: url("https://www.citalia.com/-/media/Bynder/Citalia-destinations/Italy/Cities/Venice/Venice-2023-Rialto-Bridge-001109-Hybris.jpg?rev=c5d099adefcd4cc0943d44baada29c93&hash=B5656830DBB586F4D7B9F656DFCD971F&w=1920&h=940");
-    /* / url("data:image/svg+xml,%3Csvg height='100' width='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='0,0 100,0 100,100 0,100' style='fill:%2398C1D9; opacity: 0.9;'/%3E%3Cpolygon points='50,0 100,50 50,100 0,50' style='fill:%23DCDAD5;'/%3E%3C/svg%3E "); */
-    /* background-size: 3cm; */
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: auto 100%;
   }
-  h1 {
+  h1:not(.pdoc) {
     @apply text-5xl font-serif text-accent @xs:text-8xl;
     line-height: 3.2rem;
   }
-  h2 {
+  h2:not(.pdoc) {
     @apply text-4xl font-serif;
   }
-  h3 {
+  h3:not(.pdoc) {
     @apply text-2xl font-serif;
-  }
-  h2, h3, h4 {
-      @apply mt-8 mb-4;
-  }
-  a {
-    @apply !text-accent border-b-1;
-  }
-  pre {
-    @apply w-full p-2 my-1 rounded-lg !bg-white/20  border-2 border-accent text-wrap;
-  }
-  p,
-  li,
-  ul {
-    @apply font-sans mt-3;
-  }
-  li {
-    /* add the bullet point */
-    @apply list-disc ml-6 mt-3;
-  }
-  blockquote {
-    @apply border-l-4 pl-4 italic border-gray-400;
-  }
-  aside {
-    /* width: 25%; */
-    float: right;
-    border-left: 6px solid black !important;
-    border: 1px solid gray;
-    border-radius: 6px;
-    max-width: 20vw;
-    @apply p-4;
-  }
-  code {
-    @apply text-accent;
   }
 }

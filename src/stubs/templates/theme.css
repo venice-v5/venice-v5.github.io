@@ -1,0 +1,83 @@
+@font-face {
+  font-family: "PP Editorial";
+  src: url("/fonts/pp-editorial.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/Geist-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+body, .view-source-button {
+    font-family: Geist !important;
+}
+code, pre, .attr, .class, .variable, .function, .memberList, nav > * > ul {
+    font-family: "Geist Mono" !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #ff453b !important;
+    font-family: "PP Editorial" !important;
+}
+
+:root {
+    --pdoc-background: white;
+
+    --color-accent: #ff453b;
+}
+
+.pdoc {
+    --text: #212529;
+    --muted: #6c757d;
+    --link: #3660a5;
+    --link-hover: #1659c5;
+    --code: #f8f8f8;
+    --active: #fff598;
+
+    --accent: #f8f8f8;
+    --accent2: #f8f8f8;
+
+    --nav-hover: rgba(255, 255, 255, 0.5);
+    --name: #0066BB;
+    --def: #008800;
+    --annotation: #007020;
+}
+
+input[type=search]:focus::placeholder, input[type=search]:focus {
+    color: #ff453b !important;
+    outline-color: #ff453b !important;
+    outline-width: 2px;
+}
+
+input[type=search] {
+    padding: 0.1rem !important;
+    color: #ff453b !important;
+}
+
+input[type=search] {
+    margin-bottom: 1rem !important;
+}
+
+nav.pdoc {
+    box-shadow: none !important;
+}
+
+nav.pdoc > div > h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: black !important;
+}
+
+#navtoggle {
+    transform: translateY(2rem);
+}

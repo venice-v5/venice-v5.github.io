@@ -1,6 +1,7 @@
 ---
 import "@/styles/global.css";
-
+import Discord from "@/components/icons/discord";
+import { Github } from "lucide-react";
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
@@ -13,38 +14,47 @@ const { title, description, ogImage, nocredit } = Astro.props;
 
 <html lang="en">
   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title || "Venice: Python for VEX V5"}</title>
-        <meta name="description" content={description || "Venice is a Python runtime for VEX V5 robots."} />
-		<link rel="icon" href="/favicon.png" type="image/png">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title || "Venice: Python for VEX V5"}</title>
+    <meta
+      name="description"
+      content={description || "Venice is a Python runtime for VEX V5 robots."}
+    />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/contrib/auto-render.min.js"
+    ></script>
   </head>
-  <body class="bg-background min-h-screen  font-sans antialiased">
-      <div class="z-30 w-screen h-screen fixed overflow-y-scroll top-0 left-0 bg-white/30 backdrop-blur-sm">
-          <main>
-        <slot class="z-10" />
-          </main>
-        {
-          !nocredit && <div class="fixed top-4 left-4 text-xl font-mono z-[9]">image from <br /><a href="https://www.citalia.com/holidays/italy/veneto/venice/grand-canal-boat-tour-excursion/">Citalia</a></div>
-        }
+  <body class="bg-background min-h-screen min-w-screen font-sans antialiased">
+      <div class="px-4 pt-16 w-screen h-screen right-0 left-0 top-0 bottom-0 overflow-y-scroll">
+          <slot class="z-10 " />
       </div>
-      <script>
-      document.addEventListener('DOMContentLoaded', () => {
-            renderMathInElement(
-                document.body,
-                {
-                    delimiters: [
-                        {left: "$$", right: "$$", display: true},
-                        {left: "\\[", right: "\\]", display: true},
-                        {left: "$", right: "$", display: false},
-                        {left: "\\(", right: "\\)", display: false}
-                    ]
-                }
-            );
-      });
-          </script>
+    <div
+      class="z-30 p-4 w-screen fixed flex gap-5 text-xl overflow-y-scroll top-0 left-0 backdrop-blur-md"
+    >
+          <a href="/" class="no-decor my-auto">
+        <img
+          src="/favicon-large.png"
+          class="size-8 rounded-lg overflow-hidden"
+          title="Venice"
+        />
+        </a>
+        <a href="/" class="!text-black font-sans !no-underline !my-auto !text-xl">Home</a>
+        <a href="/docs" class="!text-black font-sans !no-underline !my-auto !text-xl">Learn</a>
+        <a href="/api" class="!text-black font-sans !no-underline !my-auto !text-xl">API</a>
+        <a href="https://discord.gg/Egw6kMU8hX" class="!text-[#5865F2] font-sans gap-2 !no-underline ml-auto !my-auto !text-xl flex"><Discord /><span class="my-auto">Discord</span></a>
+        <a href="https://github.com/venice-v5" class="!text-black font-sans gap-2 !no-underline ml-5 !my-auto !text-xl flex"><Github size="1.75rem" /><span class="my-auto">GitHub</span></a>
+      </div>
+    <style>
+
+    </style>
   </body>
 </html>
