@@ -1,5 +1,5 @@
 # TODO: just use master once `feat/stubs` is merged in
-git clone --depth 1 --no-checkout --single-branch --branch "feat/stubs" https://github.com/venice-v5/venice
+git clone --depth 1 --no-checkout --single-branch --branch "feat/stubs2" https://github.com/venice-v5/venice
 
 cd venice
 

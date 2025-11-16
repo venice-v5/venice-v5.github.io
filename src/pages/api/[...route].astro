@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+console.log("DOING STUFF")
 const files = import.meta.glob("../../stubs/**/*.html", {
   query: "?raw",
 });
+console.log("FILES:::DFGLDFHLG:")
+console.log(files);
 const keys = Object.keys(files);
 const routes = await Promise.all(
   keys.map(async (k) => ({
@@ -29,12 +32,13 @@ export async function getStaticPaths() {
       },
     })),
   );
+  console.log("ROUTESHDFJ", routes)
   return routes;
 }
 
 const { route } = Astro.params;
 if (route === undefined) {
-  return Astro.redirect("/api/venice.html");
+  return Astro.redirect("/api/venice");
 }
 const html = routes.filter(r => r.params.route == route)[0].params.html;
 ---
