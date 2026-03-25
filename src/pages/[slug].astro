@@ -19,17 +19,17 @@ const { Content } = await page.render();
 <BaseLayout title={`${page.data.title} | Venice blog`}>
   <section>
     <div
-      class="backdrop-blur-lg bg-white/30 p-10 my-5 rounded-xl mx-auto w-[60rem] max-w-[90vw]"
+      class="backdrop-blur-lg bg-white/30 pt-6 px-12 pb-12 my-8 rounded-xl mx-auto w-[60rem] max-w-[90vw]"
     >
-      <div class="uppercase text-2xl -mb-4 text-center">
+      <div class="uppercase text-2xl -mb-8 text-center">
         from the <a href="/">Venice</a> blog
       </div>
-      <h1 class="text-center">
+      <h1 class="text-center mb-4">
           {page.data.title}
       </h1>
-      <div class="flex text-xl font-sans mx-auto justify-center">
+      <div class="flex text-xl font-sans mx-auto justify-center gap-8 mb-10">
         <span class="">{page.data.description}</span>
-        <time class="mx-10">{page.data.date}</time>
+        <time class="">{page.data.date}</time>
         <div class="">
           by <a href={page.data.authorLink}>{page.data.author}</a>
         </div>
@@ -75,13 +75,16 @@ const { Content } = await page.render();
   h4,
   h5,
   h6 {
-    margin-top: 2rem;
-    margin-bottom: 0.2rem;
+    margin-top: 2.5rem;
   }
   a {
       color: var(--color-accent);
   }
+  p {
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+  }
   * {
-      line-height: 1.7rem;
+      line-height: 1.7;
   }
 </style>

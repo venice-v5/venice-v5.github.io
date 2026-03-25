@@ -17,36 +17,75 @@ const files = import.meta.glob("../stubs/**/*.html");
 ---
 
 <BaseLayout title="Venice: OSS Python runtime for VEX V5 robots">
-    <section class="py-10">
-      <div class="flex flex-col lg:flex-row lg:mx-52 gap-12 mt-[10vh]">
-      <div class="my-auto z-10 items-center flex flex-col">
-        <h1 class="text-center">
-          Venice, an open source Python runtime for
-          VEX V5 robots
+    <section class="py-10 max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row gap-16 mt-[12vh] items-center hero-content">
+      <div class="flex-1 z-10 flex flex-col max-w-2xl">
+        <h1 class="text-left leading-tight mb-8">
+          Venice, an open source Python runtime for VEX V5 robots
         </h1>
-        <p class="mt-5">
+        <p class="text-lg leading-relaxed text-foreground/80">
           Venice is a community-driven, open-source port of Micropython to the VEX V5 brain. It supports:
-          <ul class="[&_li]:list-disc ml-4">
-              <li>Multiple files</li>
-              <li>Async Python for long-running tasks</li>
-              <li>Simple and type-safe API design</li>
-              <li>High-quality type checking, build, and upload support in any editor</li>
-          </ul>
         </p>
+        <ul class="mt-6 space-y-3 text-lg">
+          <li class="flex items-center gap-3">
+            <span class="text-accent font-bold flex-shrink-0">→</span>
+            <span>Multiple files</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-accent font-bold flex-shrink-0">→</span>
+            <span>Async Python for long-running tasks</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-accent font-bold flex-shrink-0">→</span>
+            <span>Simple and type-safe API design</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-accent font-bold flex-shrink-0">→</span>
+            <span>High-quality type checking, build, and upload support in any editor</span>
+          </li>
+        </ul>
       </div>
-      <div class="w-full border-2 border-accent rounded-2xl p-2 my-auto"><CodeDemo  /></div>
+      <div class="flex-1 w-full border-2 border-accent/20 rounded-2xl p-3 bg-white/50 backdrop-blur-sm demo-box"><CodeDemo /></div>
     </div>
-    <h2 class="mt-10 text-center w-full mb-3">From the blog</h2>
-    {
-      posts.map((post: BlogPost) => (
-        <a
-          class="flex flex-col mx-auto gap-4 bg-white/40 rounded-lg p-5 w-[30rem] max-w-[70vw] shadow-lg hover:shadow-xl outline-accent outline-1 border-none hover:outline-3"
-          href={post.url}
-        >
-          <h3 class="my-0">{post.data.title}</h3>
-          <span class="font-sans">{post.data.description}</span>
-        </a>
-      ))
-    }
+    <div class="mt-32 mb-16">
+      <h2 class="text-center w-full mb-12">From the blog</h2>
+      <div class="flex flex-col gap-6 max-w-3xl mx-auto">
+        {
+          posts.map((post: BlogPost) => (
+            <a
+              class="group flex flex-col gap-3 bg-white/60 backdrop-blur-sm rounded-xl p-8 transition-all duration-300 border border-black/5 hover:border-accent/30 hover:-translate-y-1"
+              href={post.url}
+            >
+              <h3 class="my-0 group-hover:text-accent transition-colors duration-300">{post.data.title}</h3>
+              <span class="font-sans text-foreground/70 leading-relaxed">{post.data.description}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  section {
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  .demo-box {
+    transition: all 0.3s ease;
+  }
+
+  .demo-box:hover {
+    border-color: #ff453b;
+    transform: translateY(-2px);
+  }
+</style>
