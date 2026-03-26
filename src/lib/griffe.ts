@@ -378,7 +378,7 @@ function remarkVeniceReferences(index?: GriffeReferenceIndex) {
       }
 
       if (node.type === "code") {
-        const html = `<div class=\"ref-code-block${node.lang ? "" : ""}\"><pre><code>${renderCodeHtml(node.value, node.lang || "python")}</code></pre></div>`;
+        const html = `<div class=\"my-3.5 overflow-hidden rounded-md border border-[#e1e4e8] bg-transparent\"><pre class=\"m-0 overflow-x-auto whitespace-pre px-[1.125rem] py-4 font-mono text-sm leading-6 text-[#24292e]\"><code>${renderCodeHtml(node.value, node.lang || "python")}</code></pre></div>`;
         node.type = "html";
         node.value = html;
       }

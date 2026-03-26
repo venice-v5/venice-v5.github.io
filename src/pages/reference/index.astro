@@ -65,20 +65,23 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
   description="API reference"
   nocredit
 >
-  <div class="ref-page">
+  <div class="min-h-screen text-[0.9375rem] leading-7 text-slate-900">
     {loadError || !primaryModuleName || !primaryModule ? (
-      <div class="ref-error">
+      <div class="mx-auto my-12 max-w-2xl rounded-lg border border-red-200 bg-red-50 p-6 text-[0.9375rem]">
         <strong>Could not load dump.</strong>
-        <code>{loadError ?? "No modules found in /tmp/dump.json."}</code>
+        <code class="mt-2 block font-mono text-sm text-red-500">
+          {loadError ?? "No modules found in /tmp/dump.json."}
+        </code>
       </div>
     ) : (
-      <div class="ref-layout">
-
-        {/* ── Left sidebar ── */}
-        <aside class="ref-sidebar">
-          <div class="ref-sidebar-inner">
-            <div class="ref-sidebar-mod">
-              <a href={`#${getMemberId([primaryModuleName])}`} class="ref-sidebar-modname">
+      <div class="mx-auto grid max-w-[1440px] grid-cols-1 px-4 py-8 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12 lg:px-8 lg:py-10 xl:grid-cols-[240px_minmax(0,62rem)] xl:gap-16">
+        <aside class="hidden lg:sticky lg:top-20 lg:block lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto">
+          <div class="pr-4 pb-12">
+            <div class="mb-5">
+              <a
+                href={`#${getMemberId([primaryModuleName])}`}
+                class="block font-serif text-xl font-normal leading-tight text-slate-900 no-underline hover:text-[var(--color-accent)]"
+              >
                 {primaryModuleName}
               </a>
             </div>
@@ -87,31 +90,33 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
               type="search"
               placeholder="Filter…"
               data-reference-search-input
-              class="ref-search"
+              class="mb-6 w-full rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1.5 font-sans text-sm text-slate-900 outline-none placeholder:text-gray-400 focus:border-gray-400"
               autocomplete="off"
               spellcheck="false"
             />
 
             {sidebarGroups.map(({ label, members }) => (
-              <div class="ref-nav-group">
-                <div class="ref-nav-label">{label}</div>
-                <nav>
+              <div class="mb-5" data-reference-nav-group>
+                <div class="mb-1.5 pl-1.5 text-xs font-semibold text-[var(--color-accent)]">
+                  {label}
+                </div>
+                <nav data-reference-nav-group-items>
                   {members.map(([name, member]) => {
                     const children = getVisibleMembers(member.members);
                     return (
                       <div data-reference-nav-item>
                         <a
                           href={`#${getMemberId([primaryModuleName, name])}`}
-                          class="ref-nav-link"
+                          class="block rounded px-1.5 py-1 text-sm leading-6 text-slate-700 no-underline transition hover:bg-red-50 hover:text-[var(--color-accent)]"
                         >
                           {name}
                         </a>
                         {children.length > 0 && (
-                          <div class="ref-nav-children">
+                          <div class="mb-1.5 ml-3 border-l border-gray-100 pl-2.5">
                             {children.map(([childName]) => (
                               <a
                                 href={`#${getMemberId([primaryModuleName, name, childName])}`}
-                                class="ref-nav-child"
+                                class="block py-[0.15rem] font-mono text-[0.8125rem] leading-6 text-slate-500 no-underline hover:text-[var(--color-accent)]"
                               >
                                 {childName}
                               </a>
@@ -125,16 +130,22 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
               </div>
             ))}
 
-            <div data-reference-empty hidden class="ref-no-results">No results.</div>
+            <div data-reference-empty hidden class="px-1.5 py-2 text-sm text-gray-400">No results.</div>
           </div>
         </aside>
 
-        {/* ── Main content ── */}
-        <main class="ref-content">
-          <header class="ref-page-header" id={getMemberId([primaryModuleName])} data-reference-entry data-reference-search={`${primaryModuleName} ${primaryModule.docstring?.value ?? ""}`}>
-            <h1 class="ref-page-title">{primaryModuleName}</h1>
+        <main>
+          <header
+            class="border-b border-gray-200 pb-8"
+            id={getMemberId([primaryModuleName])}
+            data-reference-entry
+            data-reference-search={`${primaryModuleName} ${primaryModule.docstring?.value ?? ""}`}
+          >
+            <h1 class="mb-3 font-serif text-5xl font-normal leading-none tracking-[-0.01em] text-slate-900">
+              {primaryModuleName}
+            </h1>
             {leadParagraph?.type === "paragraph" && (
-              <p class="ref-page-lead">{leadParagraph.content}</p>
+              <p class="mb-5 max-w-[56ch] text-base leading-7 text-slate-600">{leadParagraph.content}</p>
             )}
             {codeExample?.type === "code" && (
               <CodeBlock code={codeExample.content} language={codeExample.language || "python"} large />
@@ -151,7 +162,7 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
             )}
           </header>
 
-          <div class="ref-members">
+          <div>
             {allTopLevel.map(([name, member]) => (
               <ReferenceMember
                 name={name}
@@ -163,9 +174,6 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
             ))}
           </div>
         </main>
-
-
-
       </div>
     )}
   </div>
@@ -173,6 +181,7 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
   <script is:inline>
     const input = document.querySelector("[data-reference-search-input]");
     const navItems = document.querySelectorAll("[data-reference-nav-item]");
+    const navGroups = document.querySelectorAll("[data-reference-nav-group]");
     const entries = document.querySelectorAll("[data-reference-entry]");
     const empty = document.querySelector("[data-reference-empty]");
 
@@ -186,6 +195,12 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
           const match = !q || (item.textContent ?? "").toLowerCase().includes(q);
           item.toggleAttribute("hidden", !match);
           if (match) navVisible++;
+        });
+
+        navGroups.forEach((group) => {
+          const items = group.querySelectorAll("[data-reference-nav-item]");
+          const hasVisibleItems = [...items].some((item) => !item.hasAttribute("hidden"));
+          group.toggleAttribute("hidden", !hasVisibleItems);
         });
 
         entries.forEach((entry) => {
@@ -215,224 +230,21 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
 </BaseLayout>
 
 <style is:global>
-  /* ── Reset global heading styles inside ref-page ── */
-  .ref-page h1,
-  .ref-page h2,
-  .ref-page h3,
-  .ref-page h4 {
-    font-family: var(--font-sans) !important;
-    color: #111827 !important;
-    line-height: 1.25 !important;
-    margin: 0 !important;
-  }
-
-  .ref-page p {
-    margin: 0;
-  }
-
-  /* ── Page shell ── */
-  .ref-page {
-    min-height: 100vh;
-    color: #111827;
-    font-size: 0.9375rem;
-    line-height: 1.7;
-  }
-
-  .ref-layout {
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-  }
-
-  @media (min-width: 1024px) {
-    .ref-layout {
-      grid-template-columns: 240px minmax(0, 1fr);
-      gap: 3rem;
-      padding: 2.5rem 2rem;
-      align-items: start;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .ref-layout {
-      grid-template-columns: 240px minmax(0, 62rem);
-      gap: 4rem;
-    }
-  }
-
-  /* ── Left sidebar ── */
-  .ref-sidebar {
-    display: none;
-  }
-
-  @media (min-width: 1024px) {
-    .ref-sidebar {
-      display: block;
-      position: sticky;
-      top: 5rem;
-      max-height: calc(100vh - 6rem);
-      overflow-y: auto;
-    }
-
-    .ref-sidebar::-webkit-scrollbar { width: 4px; }
-    .ref-sidebar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
-  }
-
-  .ref-sidebar-inner {
-    padding-right: 1rem;
-  }
-
-  .ref-sidebar-mod {
-    margin-bottom: 1.25rem;
-  }
-
-  .ref-sidebar-modname {
-    display: block;
-    font-size: 1.25rem;
-    color: #111827;
-    text-decoration: none;
-    font-family: var(--font-serif);
-    font-weight: normal;
-    line-height: 1.2;
-  }
-
-  .ref-sidebar-modname:hover { color: var(--color-accent); }
-
-  .ref-search {
-    width: 100%;
-    padding: 0.4rem 0.6rem;
-    font-size: 0.875rem;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
-    color: #111827;
-    outline: none;
-    margin-bottom: 1.5rem;
-    font-family: var(--font-sans);
-  }
-
-  .ref-search:focus { border-color: #9ca3af; }
-  .ref-search::placeholder { color: #9ca3af; }
-
-  .ref-nav-group {
-    margin-bottom: 1.25rem;
-  }
-
-  .ref-nav-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    margin-bottom: 0.375rem;
-    padding-left: 0.375rem;
-  }
-
-  .ref-nav-link {
-    display: block;
-    padding: 0.25rem 0.375rem;
-    font-size: 0.875rem;
-    color: #374151;
-    text-decoration: none;
-    border-radius: 4px;
-    line-height: 1.5;
-    transition: color 0.1s, background 0.1s;
-  }
-
-  .ref-nav-link:hover { color: var(--color-accent); background: #fef2f2; }
-
-  .ref-nav-children {
-    margin-left: 0.75rem;
-    border-left: 1px solid #f3f4f6;
-    padding-left: 0.625rem;
-    margin-bottom: 0.375rem;
-  }
-
-  .ref-nav-child {
-    display: block;
-    padding: 0.15rem 0;
-    font-size: 0.8125rem;
-    font-family: var(--font-mono);
-    color: #6b7280;
-    text-decoration: none;
-    line-height: 1.6;
-  }
-
-  .ref-nav-child:hover { color: var(--color-accent); }
-
-  .ref-no-results {
-    font-size: 0.875rem;
-    color: #9ca3af;
-    padding: 0.5rem 0.375rem;
-  }
-
-  /* ── Page header ── */
-  .ref-page-header {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #e5e7eb;
-    margin-bottom: 0;
-  }
-
-  .ref-page-title {
-    font-family: var(--font-serif) !important;
-    font-size: 3rem !important;
-    font-weight: normal !important;
-    letter-spacing: -0.01em;
-    color: #111827 !important;
-    margin-bottom: 0.75rem !important;
-    line-height: 1 !important;
-  }
-
-  .ref-page-lead {
-    font-size: 1rem;
-    color: #4b5563;
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-    max-width: 56ch;
-  }
-
-  /* ── Members list ── */
-  .ref-members {
-    margin-top: 0;
-  }
-
-  /* ── Individual member ── */
-  .ref-member {
-    scroll-margin-top: 5rem;
-  }
-
-  .ref-depth-0 {
-    padding: 2rem 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .ref-depth-0:last-child {
-    border-bottom: none;
-  }
-
-  .ref-depth-1 {
-    position: relative;
-    padding: 0.875rem 0 0.875rem 1.75rem;
-    margin-top: 0;
-  }
-
-  /* └─ curved connector per depth-1 item */
   .ref-depth-1::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     width: 1.125rem;
     height: 1.7rem;
-    border-left: 1.5px solid #dde1e7;
-    border-bottom: 1.5px solid #dde1e7;
-    border-bottom-left-radius: 8px;
     box-sizing: border-box;
+    border-bottom: 1.5px solid #dde1e7;
+    border-left: 1.5px solid #dde1e7;
+    border-bottom-left-radius: 8px;
   }
 
-  /* vertical continuation line for non-last siblings */
   .ref-depth-1:not(:last-child)::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 1.7rem;
@@ -440,27 +252,21 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
     border-left: 1.5px solid #dde1e7;
   }
 
-  .ref-depth-2 {
-    position: relative;
-    padding: 0.75rem 0 0.75rem 1.5rem;
-    margin-top: 0;
-  }
-
   .ref-depth-2::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 0;
     width: 1rem;
     height: 1.625rem;
-    border-left: 1.5px solid #e9ecef;
-    border-bottom: 1.5px solid #e9ecef;
-    border-bottom-left-radius: 6px;
     box-sizing: border-box;
+    border-bottom: 1.5px solid #e9ecef;
+    border-left: 1.5px solid #e9ecef;
+    border-bottom-left-radius: 6px;
   }
 
   .ref-depth-2:not(:last-child)::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     top: 1.625rem;
@@ -468,186 +274,6 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
     border-left: 1.5px solid #e9ecef;
   }
 
-  .ref-member-hd {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .ref-member-title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  /* ── Kind badge ── */
-  .ref-badge {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    vertical-align: baseline;
-    flex-shrink: 0;
-    line-height: 1.5;
-  }
-
-  .ref-badge--class     { background: #eff6ff; color: #2563eb; }
-  .ref-badge--function  { background: #f0fdf4; color: #16a34a; }
-  .ref-badge--attribute { background: #fff7ed; color: #ea580c; }
-  .ref-badge--module    { background: #faf5ff; color: #9333ea; }
-  .ref-badge--alias     { background: #f8fafc; color: #64748b; }
-  .ref-badge--label     { background: #f1f5f9; color: #475569; }
-
-  /* ── Member headings ── */
-  .ref-heading {
-    font-size: 1.375rem !important;
-    font-weight: 700 !important;
-    color: #111827 !important;
-    line-height: 1.2 !important;
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.3rem;
-  }
-
-  .ref-heading--serif {
-    font-family: var(--font-serif) !important;
-    font-size: 1.75rem !important;
-    font-weight: normal !important;
-    letter-spacing: -0.01em;
-  }
-
-  .ref-heading--sm {
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-  }
-
-  .ref-pilcrow {
-    font-size: 0.9em;
-    color: #d1d5db;
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity 0.12s;
-    font-weight: 400;
-  }
-
-  .ref-member-hd:hover .ref-pilcrow,
-  .ref-pilcrow:focus {
-    opacity: 1;
-  }
-
-  /* ── Source link ── */
-  .ref-source-link {
-    font-size: 0.8125rem;
-    color: #9ca3af;
-    text-decoration: none;
-    white-space: nowrap;
-    margin-top: 0.3rem;
-    flex-shrink: 0;
-  }
-
-  .ref-source-link:hover { color: var(--color-accent); }
-
-  /* ── Signature block ── */
-  .ref-sig {
-    font-family: var(--font-mono) !important;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    background: transparent;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    padding: 0.625rem 1rem;
-    margin: 0 0 0.875rem 0;
-    overflow-x: auto;
-    white-space: pre;
-    color: #1e293b;
-  }
-
-  /* ── Docstring ── */
-  .ref-docstring {
-    color: #374151;
-    font-size: 0.9375rem;
-    line-height: 1.75;
-  }
-
-  .ref-docstring :where(h1, h2, h3, h4, h5, h6) {
-    font-family: var(--font-sans) !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.02em;
-    color: #111827 !important;
-    margin: 1.1rem 0 0.5rem 0 !important;
-  }
-
-  .ref-docstring h1,
-  .ref-docstring h2 {
-    font-size: 1.1rem !important;
-  }
-
-  .ref-docstring h3,
-  .ref-docstring h4 {
-    font-size: 1rem !important;
-  }
-
-  .ref-docstring h5,
-  .ref-docstring h6 {
-    font-size: 0.92rem !important;
-  }
-
-  .ref-docstring p,
-  .ref-docstring ul,
-  .ref-docstring ol,
-  .ref-docstring blockquote {
-    margin: 0 0 0.75rem 0;
-    max-width: 68ch;
-  }
-
-  .ref-docstring p:last-child,
-  .ref-docstring ul:last-child,
-  .ref-docstring ol:last-child,
-  .ref-docstring blockquote:last-child {
-    margin-bottom: 0;
-  }
-
-  /* ── Children container ── */
-  .ref-children {
-    margin-top: 0.75rem;
-  }
-
-  /* ── Code blocks ── */
-  .ref-code-block {
-    background: transparent;
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 0.875rem 0;
-    border: 1px solid #e1e4e8;
-  }
-
-  .ref-code-block pre {
-    margin: 0;
-    padding: 1rem 1.125rem;
-    overflow-x: auto;
-    font-family: var(--font-mono) !important;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: #24292e;
-    white-space: pre;
-    word-break: normal;
-  }
-
-  .ref-code-block code {
-    font-family: inherit;
-  }
-
-  .ref-code-block--large pre {
-    padding: 1.25rem 1.5rem;
-    font-size: 0.9375rem;
-  }
-
-  /* ── Inline code ── */
   .rf-inline-code {
     font-family: var(--font-mono);
     font-size: 0.875em;
@@ -668,70 +294,15 @@ const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
     color: var(--color-accent);
   }
 
-  /* ── Right TOC ── */
-  .ref-toc {
-    display: none;
+  .rf-token-keyword { color: #d73a49; }
+  .rf-token-function { color: #6f42c1; }
+  .rf-token-type { color: #005cc5; }
+  .rf-token-string { color: #032f62; }
+  .rf-token-number { color: #005cc5; }
+  .rf-token-operator { color: #d73a49; }
+  .rf-token-decorator { color: #6f42c1; }
+  .rf-token-comment {
+    color: #6a737d;
+    font-style: italic;
   }
-
-  @media (min-width: 1280px) {
-    .ref-toc {
-      display: block;
-      position: sticky;
-      top: 5rem;
-      max-height: calc(100vh - 6rem);
-      overflow-y: auto;
-    }
-  }
-
-  .ref-toc-inner {
-    padding-left: 1rem;
-    border-left: 1px solid #f3f4f6;
-  }
-
-  .ref-toc-link {
-    display: block;
-    font-size: 0.8125rem;
-    color: #6b7280;
-    text-decoration: none;
-    padding: 0.2rem 0;
-    line-height: 1.5;
-    transition: color 0.1s;
-  }
-
-  .ref-toc-link--top {
-    color: #374151;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-
-  .ref-toc-link:hover { color: var(--color-accent); }
-
-  /* ── Error state ── */
-  .ref-error {
-    max-width: 40rem;
-    margin: 3rem auto;
-    padding: 1.5rem;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    border-radius: 8px;
-    font-size: 0.9375rem;
-  }
-
-  .ref-error code {
-    display: block;
-    margin-top: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.875rem;
-    color: #ef4444;
-  }
-
-  /* ── Syntax tokens — github-light palette ── */
-  .rf-token-keyword   { color: #d73a49; } /* red   — from import def while etc */
-  .rf-token-function  { color: #6f42c1; } /* purple — name after def            */
-  .rf-token-type      { color: #005cc5; } /* blue  — uppercase constants/builtins */
-  .rf-token-string    { color: #032f62; } /* dark blue — strings                 */
-  .rf-token-number    { color: #005cc5; } /* blue  — numeric literals            */
-  .rf-token-operator  { color: #d73a49; } /* red   — =  ->  +  -  etc           */
-  .rf-token-decorator { color: #6f42c1; } /* purple — @decorator                */
-  .rf-token-comment   { color: #6a737d; font-style: italic; }
 </style>
