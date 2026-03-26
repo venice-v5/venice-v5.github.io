@@ -18,6 +18,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v7
       - name: Checkout your repository using git
         uses: actions/checkout@v4
       - name: Install, build, and upload your site
