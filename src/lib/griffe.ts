@@ -77,6 +77,17 @@ export interface GriffeCodeBlock {
   content: string;
 }
 
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import { visit } from "unist-util-visit";
+
+export interface GriffeReferenceIndex {
+  refs: Record<string, string>;
+}
+
 export type GriffeDocBlock = GriffeParagraphBlock | GriffeCodeBlock;
 export type GriffeDump = Record<string, GriffeMember>;
 
@@ -316,18 +327,78 @@ export function parseDocstring(input?: string | null): GriffeDocBlock[] {
   return blocks;
 }
 
-export function renderInlineDocHtml(input: string): string {
-  return input
-    .split(/(`[^`]+`)/g)
-    .filter(Boolean)
-    .map((part) => {
-      if (part.startsWith("`") && part.endsWith("`")) {
-        return `<code class=\"rf-inline-code\">${escapeHtml(part.slice(1, -1))}</code>`;
+function getReferenceCandidates(reference: string): string[] {
+  const cleaned = reference.trim().replace(/\(\)$/, "");
+  if (!cleaned) return [];
+
+  const parts = cleaned.split(".");
+  const candidates = [cleaned];
+
+  for (let i = 1; i < parts.length; i += 1) {
+    candidates.push(parts.slice(i).join("."));
+  }
+
+  return [...new Set(candidates)];
+}
+
+export function resolveReferenceHref(
+  reference: string,
+  index?: GriffeReferenceIndex,
+): string | null {
+  if (!index) return null;
+
+  for (const candidate of getReferenceCandidates(reference)) {
+    const href = index.refs[candidate];
+    if (href) return href;
+  }
+
+  return null;
+}
+
+function remarkVeniceReferences(index?: GriffeReferenceIndex) {
+  return () => (tree: any) => {
+    visit(tree, (node: any) => {
+      if (node.type === "inlineCode") {
+        const href = resolveReferenceHref(node.value, index);
+        if (href) {
+          node.type = "link";
+          node.url = href;
+          node.title = null;
+          node.children = [{ type: "text", value: node.value }];
+          node.data = {
+            hName: "a",
+            hProperties: { className: ["rf-inline-code", "rf-inline-code--link"] },
+          };
+        } else {
+          node.data = {
+            hName: "code",
+            hProperties: { className: ["rf-inline-code"] },
+          };
+        }
       }
 
-      return escapeHtml(part);
-    })
-    .join("");
+      if (node.type === "code") {
+        const html = `<div class=\"ref-code-block${node.lang ? "" : ""}\"><pre><code>${renderCodeHtml(node.value, node.lang || "python")}</code></pre></div>`;
+        node.type = "html";
+        node.value = html;
+      }
+    });
+  };
+}
+
+export async function renderDocMarkdownHtml(
+  input: string,
+  index?: GriffeReferenceIndex,
+): Promise<string> {
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkVeniceReferences(index))
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .process(input);
+
+  return String(file);
 }
 
 function tokenizeCode(input: string): CodeToken[] {
@@ -362,14 +433,6 @@ function getPreviousMeaningfulToken(tokens: CodeToken[], index: number): CodeTok
   return null;
 }
 
-function getNextMeaningfulToken(tokens: CodeToken[], index: number): CodeToken | null {
-  for (let i = index + 1; i < tokens.length; i += 1) {
-    if (tokens[i]?.type !== "whitespace") return tokens[i] ?? null;
-  }
-
-  return null;
-}
-
 function getTokenClass(tokens: CodeToken[], index: number): string | null {
   const token = tokens[index];
   if (!token) return null;
@@ -386,7 +449,7 @@ function getTokenClass(tokens: CodeToken[], index: number): string | null {
     case "operator":
       return "rf-token-operator";
     case "punctuation":
-      return null; // near-black, no class needed
+      return null;
     case "identifier": {
       if (PYTHON_KEYWORDS.has(token.text)) return "rf-token-keyword";
 
@@ -396,7 +459,7 @@ function getTokenClass(tokens: CodeToken[], index: number): string | null {
       if (PYTHON_BUILTINS.has(token.text) || /^[A-Z][A-Za-z0-9_]*$/.test(token.text)) {
         return "rf-token-type";
       }
-      return null; // near-black, no class needed
+      return null;
     }
     default:
       return null;
@@ -458,6 +521,54 @@ export function getVisibleMembers(
 
 export function getMemberId(path: string[]): string {
   return path.join(".");
+}
+
+function collectVisiblePaths(
+  path: string[],
+  member: GriffeMember,
+  output: string[][],
+): void {
+  output.push(path);
+  for (const [childName, childMember] of getVisibleMembers(member.members)) {
+    collectVisiblePaths([...path, childName], childMember, output);
+  }
+}
+
+export function buildReferenceIndex(dump: GriffeDump): GriffeReferenceIndex {
+  const refs: Record<string, string> = {};
+  const suffixCounts = new Map<string, number>();
+  const allPaths: string[][] = [];
+
+  for (const [moduleName, module] of Object.entries(dump)) {
+    collectVisiblePaths([moduleName], module, allPaths);
+  }
+
+  for (const path of allPaths) {
+    const localPath = path.slice(1);
+    for (let i = 0; i < localPath.length; i += 1) {
+      const suffix = localPath.slice(i).join(".");
+      suffixCounts.set(suffix, (suffixCounts.get(suffix) ?? 0) + 1);
+    }
+  }
+
+  for (const path of allPaths) {
+    const href = `#${getMemberId(path)}`;
+    refs[path.join(".")] = href;
+
+    const localPath = path.slice(1);
+    if (localPath.length > 0) {
+      refs[localPath.join(".")] = href;
+    }
+
+    for (let i = 0; i < localPath.length; i += 1) {
+      const suffix = localPath.slice(i).join(".");
+      if ((suffixCounts.get(suffix) ?? 0) === 1) {
+        refs[suffix] = href;
+      }
+    }
+  }
+
+  return { refs };
 }
 
 export function formatLocation(member: GriffeMember): string | null {

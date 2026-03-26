@@ -7,6 +7,7 @@ import {
   getVisibleMembers,
   renderCodeHtml,
   type GriffeMember,
+  type GriffeReferenceIndex,
 } from "@/lib/griffe";
 
 interface Props {
@@ -14,10 +15,11 @@ interface Props {
   member: GriffeMember;
   path: string[];
   root: GriffeMember;
+  referenceIndex?: GriffeReferenceIndex;
   depth?: number;
 }
 
-const { name, member, path, root, depth = 0 } = Astro.props;
+const { name, member, path, root, referenceIndex, depth = 0 } = Astro.props;
 const id = getMemberId(path);
 const children = getVisibleMembers(member.members);
 const signature = formatSignature(name, member);
@@ -73,7 +75,7 @@ const searchableText = [
     <pre class="ref-sig"><code set:html={signatureHtml} /></pre>
   )}
 
-  <Docstring value={member.docstring?.value} />
+  <Docstring value={member.docstring?.value} referenceIndex={referenceIndex} />
 
   {children.length > 0 && (
     <div class="ref-children">
@@ -83,6 +85,7 @@ const searchableText = [
           member={childMember}
           path={[...path, childName]}
           root={root}
+          referenceIndex={referenceIndex}
           depth={depth + 1}
         />
       ))}

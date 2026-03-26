@@ -5,6 +5,7 @@ import Docstring from "@/components/reference/Docstring.astro";
 import ReferenceMember from "@/components/reference/Member.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import {
+  buildReferenceIndex,
   getMemberId,
   getVisibleMembers,
   parseDocstring,
@@ -56,6 +57,7 @@ const allTopLevel = [
   ...sections.aliases,
   ...sections.submodules,
 ];
+const referenceIndex = dump ? buildReferenceIndex(dump) : undefined;
 ---
 
 <BaseLayout
@@ -144,6 +146,7 @@ const allTopLevel = [
                     b.type === "paragraph" ? b.content : `\`\`\`${b.language}\n${b.content}\n\`\`\``,
                   )
                   .join("\n\n")}
+                referenceIndex={referenceIndex}
               />
             )}
           </header>
@@ -155,6 +158,7 @@ const allTopLevel = [
                 member={member}
                 path={[primaryModuleName, name]}
                 root={primaryModule}
+                referenceIndex={referenceIndex}
               />
             ))}
           </div>
@@ -570,12 +574,43 @@ const allTopLevel = [
     line-height: 1.75;
   }
 
-  .ref-docstring p {
+  .ref-docstring :where(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-sans) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em;
+    color: #111827 !important;
+    margin: 1.1rem 0 0.5rem 0 !important;
+  }
+
+  .ref-docstring h1,
+  .ref-docstring h2 {
+    font-size: 1.1rem !important;
+  }
+
+  .ref-docstring h3,
+  .ref-docstring h4 {
+    font-size: 1rem !important;
+  }
+
+  .ref-docstring h5,
+  .ref-docstring h6 {
+    font-size: 0.92rem !important;
+  }
+
+  .ref-docstring p,
+  .ref-docstring ul,
+  .ref-docstring ol,
+  .ref-docstring blockquote {
     margin: 0 0 0.75rem 0;
     max-width: 68ch;
   }
 
-  .ref-docstring p:last-child { margin-bottom: 0; }
+  .ref-docstring p:last-child,
+  .ref-docstring ul:last-child,
+  .ref-docstring ol:last-child,
+  .ref-docstring blockquote:last-child {
+    margin-bottom: 0;
+  }
 
   /* ── Children container ── */
   .ref-children {
@@ -621,6 +656,16 @@ const allTopLevel = [
     border-radius: 4px;
     padding: 0.1em 0.35em;
     color: #24292e;
+  }
+
+  .rf-inline-code--link {
+    text-decoration: none;
+    color: #005cc5;
+  }
+
+  .rf-inline-code--link:hover {
+    border-color: #cbd5e1;
+    color: var(--color-accent);
   }
 
   /* ── Right TOC ── */
