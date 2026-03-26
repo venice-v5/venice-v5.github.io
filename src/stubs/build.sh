@@ -3,6 +3,6 @@ git clone --depth 1 --no-checkout --single-branch --branch "feat/stubs" https://
 git sparse-checkout set venice
 git checkout
 cd venice/venice
-if command -v uvx >/dev/null 2>&1; then uvx griffe dump . > /tmp/dump.json; else pip install griffe dump . > /tmp/dump.json; fi
+uvx griffe dump . > /tmp/dump.json
 cd ../../..
 rm -rf venice
