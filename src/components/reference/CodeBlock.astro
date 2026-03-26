@@ -1,0 +1,19 @@
+---
+import { renderCodeHtml } from "@/lib/griffe";
+
+interface Props {
+  code: string;
+  language?: string;
+  large?: boolean;
+}
+
+const { code, language = "python", large = false } = Astro.props;
+const html = renderCodeHtml(code, language);
+---
+
+<div class="my-3.5 overflow-hidden rounded-md border border-[#e1e4e8] bg-transparent">
+  <pre class:list={[
+    "m-0 overflow-x-auto whitespace-pre px-[1.125rem] py-4 font-mono text-sm leading-6 text-[#24292e]",
+    large && "px-6 py-5 text-[0.9375rem]",
+  ]}><code set:html={html} /></pre>
+</div>

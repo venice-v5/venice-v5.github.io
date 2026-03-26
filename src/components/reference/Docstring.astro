@@ -1,0 +1,18 @@
+---
+import { renderDocMarkdownHtml, type GriffeReferenceIndex } from "@/lib/griffe";
+
+interface Props {
+  value?: string | null;
+  referenceIndex?: GriffeReferenceIndex;
+}
+
+const { value, referenceIndex } = Astro.props;
+const html = value ? await renderDocMarkdownHtml(value, referenceIndex) : "";
+---
+
+{html && (
+  <div
+    class="text-[0.9375rem] leading-7 text-slate-700 [&_a]:text-[#005cc5] [&_a:hover]:text-[var(--color-accent)] [&_blockquote]:mb-3 [&_blockquote]:max-w-[68ch] [&_h1]:mt-[1.1rem] [&_h1]:mb-2 [&_h1]:font-sans [&_h1]:text-[1.1rem] [&_h1]:font-bold [&_h1]:tracking-[-0.02em] [&_h1]:text-slate-900 [&_h2]:mt-[1.1rem] [&_h2]:mb-2 [&_h2]:font-sans [&_h2]:text-[1.1rem] [&_h2]:font-bold [&_h2]:tracking-[-0.02em] [&_h2]:text-slate-900 [&_h3]:mt-[1.1rem] [&_h3]:mb-2 [&_h3]:font-sans [&_h3]:text-base [&_h3]:font-bold [&_h3]:tracking-[-0.02em] [&_h3]:text-slate-900 [&_h4]:mt-[1.1rem] [&_h4]:mb-2 [&_h4]:font-sans [&_h4]:text-base [&_h4]:font-bold [&_h4]:tracking-[-0.02em] [&_h4]:text-slate-900 [&_h5]:mt-[1.1rem] [&_h5]:mb-2 [&_h5]:font-sans [&_h5]:text-[0.92rem] [&_h5]:font-bold [&_h5]:tracking-[-0.02em] [&_h5]:text-slate-900 [&_h6]:mt-[1.1rem] [&_h6]:mb-2 [&_h6]:font-sans [&_h6]:text-[0.92rem] [&_h6]:font-bold [&_h6]:tracking-[-0.02em] [&_h6]:text-slate-900 [&_li+li]:mt-1 [&_ol]:mb-3 [&_ol]:max-w-[68ch] [&_ol]:pl-5 [&_p]:mb-3 [&_p]:max-w-[68ch] [&_ul]:mb-3 [&_ul]:max-w-[68ch] [&_ul]:pl-5"
+    set:html={html}
+  />
+)}

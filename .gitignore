@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # output
 src/stubs/output
+
+# rodney
+.rodney
