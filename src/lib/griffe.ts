@@ -249,7 +249,7 @@ export function formatParameter(parameter: GriffeParameter): string {
 export function formatSignature(
   name: string,
   member: GriffeMember,
-  { omitReceiver = true }: { omitReceiver?: boolean } = {},
+  { omitReceiver = false }: { omitReceiver?: boolean } = {},
 ): string | null {
   switch (member.kind) {
     case "module":
