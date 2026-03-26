@@ -1,0 +1,16 @@
+---
+import { renderCodeHtml } from "@/lib/griffe";
+
+interface Props {
+  code: string;
+  language?: string;
+  large?: boolean;
+}
+
+const { code, language = "python", large = false } = Astro.props;
+const html = renderCodeHtml(code, language);
+---
+
+<div class:list={["ref-code-block", large && "ref-code-block--large"]}>
+  <pre><code set:html={html} /></pre>
+</div>

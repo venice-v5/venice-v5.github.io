@@ -1,0 +1,23 @@
+---
+import CodeBlock from "@/components/reference/CodeBlock.astro";
+import { parseDocstring, renderInlineDocHtml } from "@/lib/griffe";
+
+interface Props {
+  value?: string | null;
+}
+
+const { value } = Astro.props;
+const blocks = parseDocstring(value);
+---
+
+{blocks.length > 0 && (
+  <div class="ref-docstring">
+    {blocks.map((block) =>
+      block.type === "code" ? (
+        <CodeBlock code={block.content} language={block.language || "python"} />
+      ) : (
+        <p set:html={renderInlineDocHtml(block.content).replace(/\n/g, "<br />")} />
+      ),
+    )}
+  </div>
+)}

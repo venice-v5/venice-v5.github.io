@@ -1,0 +1,91 @@
+---
+import Docstring from "@/components/reference/Docstring.astro";
+import {
+  formatSignature,
+  getMemberId,
+  getSourceUrl,
+  getVisibleMembers,
+  renderCodeHtml,
+  type GriffeMember,
+} from "@/lib/griffe";
+
+interface Props {
+  name: string;
+  member: GriffeMember;
+  path: string[];
+  root: GriffeMember;
+  depth?: number;
+}
+
+const { name, member, path, root, depth = 0 } = Astro.props;
+const id = getMemberId(path);
+const children = getVisibleMembers(member.members);
+const signature = formatSignature(name, member);
+const signatureHtml = signature ? renderCodeHtml(signature) : null;
+const sourceHref = getSourceUrl(member, root);
+const labels = (member.labels ?? []).filter(
+  (l) => l !== member.kind && l !== "instance-attribute" && l !== "class-attribute",
+);
+const searchableText = [
+  path.join(" "),
+  member.kind,
+  signature ?? "",
+  member.docstring?.value ?? "",
+  ...children.map(([n]) => n),
+].join(" ");
+---
+
+<section
+  id={id}
+  data-reference-entry
+  data-reference-search={searchableText}
+  class:list={["ref-member", `ref-depth-${Math.min(depth, 2)}`]}
+>
+  <div class="ref-member-hd">
+    <div class="ref-member-title">
+      <span class:list={["ref-badge", `ref-badge--${member.kind}`]}>{member.kind}</span>
+      {labels.map((l) => <span class="ref-badge ref-badge--label">{l}</span>)}
+      {depth === 0 ? (
+        <h2 class="ref-heading ref-heading--serif">
+          {name}
+          <a href={`#${id}`} class="ref-pilcrow" aria-label="Link to this section">¶</a>
+        </h2>
+      ) : depth === 1 ? (
+        <h2 class="ref-heading">
+          {name}
+          <a href={`#${id}`} class="ref-pilcrow" aria-label="Link to this section">¶</a>
+        </h2>
+      ) : (
+        <h3 class="ref-heading ref-heading--sm">
+          {name}
+          <a href={`#${id}`} class="ref-pilcrow" aria-label="Link to this section">¶</a>
+        </h3>
+      )}
+    </div>
+    {sourceHref && (
+      <a href={sourceHref} target="_blank" rel="noreferrer" class="ref-source-link">
+        source ↗
+      </a>
+    )}
+  </div>
+
+  {signatureHtml && (
+    <pre class="ref-sig"><code set:html={signatureHtml} /></pre>
+  )}
+
+  <Docstring value={member.docstring?.value} />
+
+  {children.length > 0 && (
+    <div class="ref-children">
+      {children.map(([childName, childMember]) => (
+        <Astro.self
+          name={childName}
+          member={childMember}
+          path={[...path, childName]}
+          root={root}
+          depth={depth + 1}
+        />
+      ))}
+    </div>
+  )}
+</section>
