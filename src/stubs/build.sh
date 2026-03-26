@@ -3,5 +3,6 @@ git clone --depth 1 --no-checkout --single-branch --branch "feat/stubs" https://
 git sparse-checkout set venice
 git checkout
 cd ..
-uvx pdoc --search -n -t src/stubs/templates venice/venice/venice/__init__.py -o src/stubs/output
+pip install pdoc
+pdoc --search -n -t src/stubs/templates venice/venice/venice/__init__.py -o src/stubs/output
 rm -rf venice
