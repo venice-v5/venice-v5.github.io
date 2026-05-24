@@ -1,12 +1,13 @@
 ---
-import { buttonVariants } from "@/components/ui/button";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import NotFound from "@/components/404";
 ---
 
 <BaseLayout
   title="404 - Not Found"
   description="404 Error — this page was not found"
 >
-  <NotFound client:load />
+    <div style={{ textAlign: "center", marginTop: "3rem" }} class="h-screen">
+        <p class="font-mono text-xl">404</p>
+      <h2>Oops! The page you were trying to go to doesn't exist.</h2>
+    </div>
 </BaseLayout>
